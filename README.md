@@ -16,3 +16,6 @@ Also useful when you have multiple tabs opened for something but would like to c
 
 ### CodingNinjas
 Script to save all the assignment questions with your answers from codingninjas.in 
+
+### Change-mac
+Script to spoof mac address. You can set to a mac of your own choice or set it randomly. Uses argparse, you need to provide the interface with every option.
