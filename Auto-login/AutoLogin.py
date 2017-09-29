@@ -18,10 +18,9 @@ if ('VIT2.4G' in str(subprocess.check_output("netsh wlan show interfaces"))
 else:
     exit()
 
-f = open(r'password.txt', 'r')
-l = f.readlines()
-f.close()
-l = l[1:]
+with open(r'password.txt', 'r') as f:
+    passwords = f.readlines()
+
 url = 'http://phc.prontonetworks.com/cgi-bin/authlogin?'
 
 
@@ -36,11 +35,11 @@ class LoginError(Exception):
 def main(flag):
     while True:
         try:
-            x = int(random.random() * len(l))
-            a = l[x].strip()
-            a = a.split('::')
-            print(a[0], a[1])
-            values = {'userId': a[0], 'password': a[1], 'serviceName': 'ProntoAuthentication', 'Submit22': 'Login'}
+            x = random.randrange(len(passwords))
+            credentials = passwords[x].strip()
+            credentials = credentials.split('::')
+            print(credentials[0], credentials[1])
+            values = {'userId': credentials[0], 'password': credentials[1], 'serviceName': 'ProntoAuthentication', 'Submit22': 'Login'}
             data = urllib.parse.urlencode(values)
             data = data.encode('utf-8')
             req = urllib.request.Request(url, data)
@@ -59,9 +58,9 @@ def main(flag):
     if ("You are already logged in" not in str(chk2)):
         now = datetime.now()
         t = now.strftime("%d/%m/%Y %I:%M %p")
-        f = open(r'log.txt', 'a')
-        f.write(a[0] + "::" + a[1] + " " + t + "\n")
-        f.close()
+        with open(r'log.txt', 'a') as f:
+            f.write(credentials[0] + "::" + credentials[1] + " " + t + "\n")
+
 
 
 if __name__ == '__main__':
